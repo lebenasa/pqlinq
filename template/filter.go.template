@@ -1,0 +1,108 @@
+package {{ packageName }}
+
+{{ $filterType := printf "%vFilter" .GoName }}
+type (
+	// {{ $filterType }} is filter expression builder for field {{ .GoName }}.
+	{{ $filterType }} struct{}
+)
+
+var {{ .GoName }} {{ $filterType }}
+
+// Eq builds {{ .Name }} = value filter.
+func (f {{ $filterType }}) Eq(value {{ .GoTypeName }}) (exp Filter) {
+	return Filter{
+		expression: "{{ .Name }} = ?",
+		args:       []interface{}{value},
+	}
+}
+
+// Neq builds {{ .Name }} <> value filter.
+func (f {{ $filterType }}) Neq(value {{ .GoTypeName }}) (exp Filter) {
+	return Filter{
+		expression: "{{ .Name }} <> ?",
+		args:       []interface{}{value},
+	}
+}
+
+// Gt builds {{ .Name }} > value filter.
+func (f {{ $filterType }}) Gt(value {{ .GoTypeName }}) (exp Filter) {
+	return Filter{
+		expression: "{{ .Name }} > ?",
+		args:       []interface{}{value},
+	}
+}
+
+// Lt builds {{ .Name }} < value filter.
+func (f {{ $filterType }}) Lt(value {{ .GoTypeName }}) (exp Filter) {
+	return Filter{
+		expression: "{{ .Name }} < ?",
+		args:       []interface{}{value},
+	}
+}
+
+// Gte builds {{ .Name }} >= value filter.
+func (f {{ $filterType }}) Gte(value {{ .GoTypeName }}) (exp Filter) {
+	return Filter{
+		expression: "{{ .Name }} >= ?",
+		args:       []interface{}{value},
+	}
+}
+
+// Lte builds {{ .Name }} <= value filter.
+func (f {{ $filterType }}) Lte(value {{ .GoTypeName }}) (exp Filter) {
+	return Filter{
+		expression: "{{ .Name }} <= ?",
+		args:       []interface{}{value},
+	}
+}
+
+// Equal builds {{ .Name }} = value filter.
+func (f {{ $filterType }}) Equal(value {{ .GoTypeName }}) (exp Filter) {
+	return f.Eq(value)
+}
+
+// NotEqual builds {{ .Name }} <> value filter.
+func (f {{ $filterType }}) NotEqual(value {{ .GoTypeName }}) (exp Filter) {
+	return f.Neq(value)
+}
+
+// GreaterThan builds {{ .Name }} > value filter.
+func (f {{ $filterType }}) GreaterThan(value {{ .GoTypeName }}) (exp Filter) {
+	return f.Gt(value)
+}
+
+// LessThan builds {{ .Name }} < value filter.
+func (f {{ $filterType }}) LessThan(value {{ .GoTypeName }}) (exp Filter) {
+	return f.Lt(value)
+}
+
+// GreaterThanEqual builds {{ .Name }} >= value filter.
+func (f {{ $filterType }}) GreaterThanEqual(value {{ .GoTypeName }}) (exp Filter) {
+	return f.Gte(value)
+}
+
+// LessThanEqual builds {{ .Name }} <= value filter.
+func (f {{ $filterType }}) LessThanEqual(value {{ .GoTypeName }}) (exp Filter) {
+	return f.Lte(value)
+}
+
+// Between builds {{ .Name }} > min AND {{ .Name }} < max filter.
+func (f {{ $filterType }}) Between(min, max {{ .GoTypeName }}) (exp Filter) {
+	return Filter{
+		expression: "{{ .Name }} > ? AND {{ .Name }} < ?",
+		args:       []interface{}{min, max},
+	}
+}
+
+// Range builds {{ .Name }} >= min AND {{ .Name }} <= max filter.
+func (f {{ $filterType }}) Range(min, max {{ .GoTypeName }}) (exp Filter) {
+	return Filter{
+		expression: "{{ .Name }} >= ? AND {{ .Name }} <= ?",
+		args:       []interface{}{min, max},
+	}
+}
+
+// Name SQL field of {{ .GoName }}.
+func (f {{ $filterType }}) Name() string {
+	return "{{ .Name }}"
+}
