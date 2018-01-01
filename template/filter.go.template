@@ -1,13 +1,5 @@
 package {{ packageName }}
 
-{{ $filterType := printf "%vFilter" .GoName }}
-type (
-	// {{ $filterType }} is filter expression builder for field {{ .GoName }}.
-	{{ $filterType }} struct{}
-)
-
-var {{ .GoName }} {{ $filterType }}
-
 // Eq builds {{ .Name }} = value filter.
 func (f {{ $filterType }}) Eq(value {{ .GoTypeName }}) (exp Filter) {
 	return Filter{
@@ -100,9 +92,4 @@ func (f {{ $filterType }}) Range(min, max {{ .GoTypeName }}) (exp Filter) {
 		expression: "{{ .Name }} >= ? AND {{ .Name }} <= ?",
 		args:       []interface{}{min, max},
 	}
-}
-
-// Name SQL field of {{ .GoName }}.
-func (f {{ $filterType }}) Name() string {
-	return "{{ .Name }}"
 }

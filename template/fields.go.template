@@ -1,0 +1,25 @@
+package {{ packageName }}
+
+type (
+{{- range .Table.Fields -}}
+{{- $fieldType := printf "Field%v" .GoName }}
+    // {{ $fieldType }} is placeholder type for field {{ .GoName }}.
+    {{ $fieldType }} struct{}
+{{- end -}}
+)
+
+var (
+{{- range .Table.Fields -}}
+{{- $fieldType := printf "Field%v" .GoName }}
+    // {{ .GoName }} is a field of table {{ packageName }}.
+    {{ .GoName }} {{ $fieldType }}
+{{- end -}}
+)
+
+{{ range .Table.Fields -}}
+{{- $fieldType := printf "Field%v" .GoName }}
+// Name of {{ .GoName }} field in database.
+func (f {{ $fieldType }}) Name() string {
+	return "{{ .Name }}"
+}
+{{- end -}}
